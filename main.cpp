@@ -25,37 +25,67 @@ int main(int argc, char** argv){
     // AS YOU WORK ON MILESTONE 2. YOU CAN UPDATE THEM YOURSELF
     // AS YOU GO ALONG.
     // COMMENT THESE OUT BEFORE YOU SUBMIT!!!
-    std::cout << "TESTING - COMMENT THE OUT TESTING BEFORE YOU SUBMIT!!!" << std::endl;
-    testNode();
-    testNodeList();
-    std::cout << "DONE TESTING" << std::endl << std::endl;
+    // std::cout << "TESTING - COMMENT THE OUT TESTING BEFORE YOU SUBMIT!!!" << std::endl;
+    // testNode();
+    // testNodeList();
+    // std::cout << "DONE TESTING" << std::endl << std::endl;
 
     // Load Environment 
     Env env;
     readEnvStdin(env);
+
+
+    for(int i =0 ; i<20;i++){
+
+        for(int j =0; j<20;j++){
+
+            std::cout<< env[i][j];
+
+        }
+        
+        std::cout<<std::endl;
+
+    }
+
     
     // Solve using forwardSearch
     // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 2
-    PathSolver* pathSolver = new PathSolver();
-    pathSolver->forwardSearch(env);
+    // PathSolver* pathSolver = new PathSolver();
+    // pathSolver->forwardSearch(env);
 
-    NodeList* exploredPositions = nullptr;
-    exploredPositions = pathSolver->getNodesExplored();
+    // NodeList* exploredPositions = nullptr;
+    // exploredPositions = pathSolver->getNodesExplored();
 
     // Get the path
     // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 3
-    NodeList* solution = pathSolver->getPath(env);
+    // NodeList* solution = pathSolver->getPath(env);
 
-    printEnvStdout(env, solution);
+    // printEnvStdout(env, solution);
 
-    delete pathSolver;
-    delete exploredPositions;
-    delete solution;
+    // delete pathSolver;
+    // delete exploredPositions;
+    // delete solution;
 
 }
 
 void readEnvStdin(Env env){
-    //TODO 
+    //Assign standard input to the 2D array paramenter ENV
+    //Inject whole text files into cin??
+
+   for(int i =0 ; i<ENV_DIM;i++){
+
+        for(int j = 0; j<ENV_DIM;j++){
+
+            char input;
+
+            std::cin >> input;
+
+            env[i][j] = input;
+        }
+    }
+
+    return;
+
 }
 
 void printEnvStdout(Env env, NodeList* solution) {
