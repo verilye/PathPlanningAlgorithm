@@ -11,6 +11,7 @@
 // Helper test functions
 void testNode();
 void testNodeList();
+void testEnv(Env env);
 
 // Read a environment from standard input.
 void readEnvStdin(Env env);
@@ -27,26 +28,13 @@ int main(int argc, char** argv){
     // COMMENT THESE OUT BEFORE YOU SUBMIT!!!
     // std::cout << "TESTING - COMMENT THE OUT TESTING BEFORE YOU SUBMIT!!!" << std::endl;
     // testNode();
-    // testNodeList();
+       testNodeList();
     // std::cout << "DONE TESTING" << std::endl << std::endl;
 
     // Load Environment 
     Env env;
-    readEnvStdin(env);
-
-
-    for(int i =0 ; i<20;i++){
-
-        for(int j =0; j<20;j++){
-
-            std::cout<< env[i][j];
-
-        }
-        
-        std::cout<<std::endl;
-
-    }
-
+    // readEnvStdin(env);
+    // testEnv(env);
     
     // Solve using forwardSearch
     // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 2
@@ -69,6 +57,7 @@ int main(int argc, char** argv){
 }
 
 void readEnvStdin(Env env){
+
     //Assign standard input to the 2D array paramenter ENV
     //Inject whole text files into cin??
 
@@ -135,4 +124,19 @@ void testNodeList() {
 
     // Print out the NodeList
     std::cout << "PRINTING OUT A NODELIST IS AN EXERCISE FOR YOU TO DO" << std::endl;
+}
+
+void testEnv(Env env){
+
+     for(int i =0 ; i<20;i++){
+
+        for(int j =0; j<20;j++){
+
+            std::cout<< env[i][j];
+
+        }
+        
+        std::cout<<std::endl;
+
+    }
 }

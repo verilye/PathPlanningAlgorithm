@@ -9,7 +9,7 @@ public:
     /* DO NOT MOFIFY ANY CODE IN THIS SECTION    */
     /*                                           */
 
-    // Constructor/Desctructor
+    // Constructor/Destructor
     Node(int row, int col, int dist_traveled);
     ~Node();
 

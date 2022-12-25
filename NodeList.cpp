@@ -2,11 +2,13 @@
 #include <iostream>
 
 NodeList::NodeList(){
-    // TODO
+
 }
 
 NodeList::~NodeList(){
-    // TODO
+
+    std::cout<<"NodeList deleted!"<<std::endl;
+
 }
 
 NodeList::NodeList(NodeList& other){
@@ -14,13 +16,19 @@ NodeList::NodeList(NodeList& other){
 }
 
 int NodeList::getLength(){
-    // TODO
+    
+    return this->length;
 }
 
 void NodeList::addElement(Node* newPos){
-    // TODO
+    
+    this->nodes[this->length] = newPos;
+    this->length = this->length + 1;
+
 }
 
 Node* NodeList::getNode(int i){
-    // TODO
+
+    return this->nodes[i];
+    
 }
