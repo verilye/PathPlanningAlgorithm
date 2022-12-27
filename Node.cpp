@@ -35,7 +35,25 @@ void Node::setDistanceTraveled(int dist_traveled)
 }
 
 int Node::getEstimatedDist2Goal(Node* goal){
-    // TODO
+    // Here is where I should put the estimated distance to goal
+    // using estimated closest difference == 
+    // distance_travelled of selected node p + Manhattan distance from p to Goal
+
+
+    //Manhattan distance = where p(1) is at location x(1),y(1) => dist traveled of p + (x(1) - x(2)) + (y(1) - y(2))
+
+    // x(1), y(1) = this->getColumn, this->getRow
+
+    // x(2), y(2) = goal->getColumn, goal->getRow
+
+    // therefore
+
+    int manhattanDistance = (this->getCol() - this->getRow()) + (goal->getCol() - goal->getRow());
+
+    int estimatedDistance = this->dist_traveled + manhattanDistance;
+
+    return estimatedDistance;
+
 }
     
 //--------------------------------                             
