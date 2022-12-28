@@ -17,10 +17,19 @@ void PathSolver::forwardSearch(Env env){
     // route that finds the Goal
 
     // Store 2 lists:
-    // Open    
-    // -One which stores valid positions with distances from start
-    // Closed  
-    // -One which stores invalid positions with distances from start
+    // Open - One which stores valid positions with distances from start
+
+    NodeList* open = new NodeList[ENV_DIM*ENV_DIM];
+
+    //OPEN LIST starts with the starting node (S) , add it to the array
+    //TODO
+    //Add a helper function to find S
+    // open->addElement(S);
+
+    // Closed - One which stores invalid positions with distances from start
+
+    NodeList* closed = new NodeList[ENV_DIM*ENV_DIM];
+
 
     // repeat
     //      select node in the open list with the estimated closest distance
