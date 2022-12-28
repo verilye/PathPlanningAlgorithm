@@ -12,6 +12,7 @@
 void testNode();
 void testNodeList();
 void testEnv(Env env);
+void testEstDist();
 
 // Read a environment from standard input.
 void readEnvStdin(Env env);
@@ -29,6 +30,7 @@ int main(int argc, char** argv){
     // std::cout << "TESTING - COMMENT THE OUT TESTING BEFORE YOU SUBMIT!!!" << std::endl;
     // testNode();
     // testNodeList();
+    // testEstDist();
     // std::cout << "DONE TESTING" << std::endl << std::endl;
 
     // Load Environment 
@@ -139,4 +141,17 @@ void testEnv(Env env){
         std::cout<<std::endl;
 
     }
+}
+
+void testEstDist(){
+
+    Node* p = new Node(1,1,0);
+
+    Node* goal = new Node(5,5,0);
+
+    std::cout<< p->getEstimatedDist2Goal(goal)<<std::endl;
+
+    return; 
+
+
 }

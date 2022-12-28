@@ -48,9 +48,13 @@ int Node::getEstimatedDist2Goal(Node* goal){
 
     // therefore
 
-    int manhattanDistance = (this->getCol() - this->getRow()) + (goal->getCol() - goal->getRow());
+    int manhattanDistance = (this->getCol() - goal->getCol()) + (this->getRow()- goal->getRow());
 
     int estimatedDistance = this->dist_traveled + manhattanDistance;
+
+    if(estimatedDistance<0){
+        estimatedDistance=-estimatedDistance;
+    }
 
     return estimatedDistance;
 
