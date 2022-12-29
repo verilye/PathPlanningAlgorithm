@@ -49,61 +49,70 @@ NodeList* PathSolver::getPath(Env env){
     // TODO
 }
 
-void PathSolver::nodeScanner(Env env, Node node){
+void PathSolver::scanCardinalDirections(Env env, Node node){
 
-    // TODO separate cardinal directions into struct
+    // TODO   
+    // check to see if node in closed or open list
+
+
     //Scan all 4 cardinal directions for valid spaces to add to the open list
 
     int x = node.getCol();
-    int y = node.getRow();
+    int y = node.getRow(); 
 
-    // Potentially map x, y modifiers to cardinal directions
-    // This could support diagonals in the future as well as
-    // cardinal directions
+    int north = y-1;
+    int south = y+1;
+    int east = x+1;
+    int west = x-1;
 
-    if((x-1) >= 0 ){
-        if(env[x-1][y] == SYMBOL_EMPTY || env[x-1][y] == SYMBOL_GOAL){
+    scanNode(env,node, x, north);
+    scanNode(env,node, x, south);
+    scanNode(env,node, east, y);
+    scanNode(env,node, west, y);
 
-            // Create node, add it to the nodelist
 
-            Node* addedNode = new Node(x-1,y,node.getDistanceTraveled()+1);
-        
-            openList->addElement(addedNode);
+   
+
+}
+
+void PathSolver::scanNode(Env env, Node node, int x, int y){
+
+    // Check both x and y are in bounds
+
+    if(x<0 || x>ENV_DIM){
+        return ;
+    }
+
+    if(y<0 || y>ENV_DIM){
+        return ;
+    }
+
+    // Check if symbol is valid
+
+    if(env[x][y] == SYMBOL_EMPTY || env[x][y] == SYMBOL_GOAL){
+
+        // Check if x and y exists in closed list
+
+        for(int i = 0; i< closedList->getLength();i++){
+            
+            if(closedList->getNode(i)->getCol() == x && 
+                 closedList->getNode(i)->getRow() == y)
+                {
+                    return;
+                }
         }
+
+         // Create node, add it to the nodelist
+
+        Node* addedNode = new Node(x,y,node.getDistanceTraveled()+1);
+
+        openList->addElement(addedNode);
+
+        return;
+
     }
 
-    if((x+1) <= ENV_DIM ){
-       
-        if( env[x+1][y] == SYMBOL_EMPTY ||  env[x+1][y] == SYMBOL_GOAL){
-
-            // Create node, add it to the nodelist
-
-            Node* addedNode = new Node(x+1,y,node.getDistanceTraveled()+1);
-        
-            openList->addElement(addedNode);
-        }
-    }
-    if((y-1) >= 0 ){
-       
-        if( env[x][y-1] == SYMBOL_EMPTY ||  env[x][y-1] == SYMBOL_GOAL){
-
-            // Create node, add it to the nodelist
-
-            Node* addedNode = new Node(x,y-1,node.getDistanceTraveled()+1);
-        
-            openList->addElement(addedNode);
-        } 
-    }
-    if( (y+1) <= ENV_DIM ){
-        
-        if(env[x][y+1] == SYMBOL_EMPTY || env[x][y+1] == SYMBOL_GOAL){
-
-            // Create node, add it to the nodelist
-
-            Node* addedNode = new Node(x,y+1,node.getDistanceTraveled()+1);
-            openList->addElement(addedNode);
-        } 
-    }
+    return ;
 
 }
 

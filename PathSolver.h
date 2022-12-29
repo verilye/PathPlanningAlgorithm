@@ -36,7 +36,7 @@ public:
 
 
     //TODO separatae cardinal directions into a struct
-    void nodeScanner(Env env, Node node);
+    void scanCardinalDirections(Env env, Node node);
 
 private:
     /*                                           */
@@ -52,6 +52,8 @@ private:
 
     NodeList* openList = new NodeList[ENV_DIM*ENV_DIM];
     NodeList* closedList = new NodeList[ENV_DIM*ENV_DIM];
+
+    void scanNode(Env env, Node node, int x, int y);
     
 };
 
