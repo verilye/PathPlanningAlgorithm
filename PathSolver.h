@@ -32,6 +32,12 @@ public:
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
 
+    Node* startingLocation;
+
+
+    //TODO separatae cardinal directions into a struct
+    void nodeScanner(Env env, Node node);
+
 private:
     /*                                           */
     /* DO NOT MOFIFY THESE VARIABLES             */
@@ -43,6 +49,9 @@ private:
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
+
+    NodeList* openList = new NodeList[ENV_DIM*ENV_DIM];
+    NodeList* closedList = new NodeList[ENV_DIM*ENV_DIM];
     
 };
 

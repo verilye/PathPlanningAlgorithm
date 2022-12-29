@@ -11,8 +11,6 @@ Node::Node(int row, int col, int dist_traveled)
 
 Node::~Node(){
 
-    std::cout<<"Node Deleted"<<std::endl;
-
 }
 
 int Node::getRow(){

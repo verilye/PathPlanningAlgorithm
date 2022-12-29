@@ -40,11 +40,14 @@ int main(int argc, char** argv){
     // Pass starting node to Pathsolver 
     Node start = readEnvStdin(env);
     // testEnv(env);
+
+    std::cout<< std::endl<<"- - -"<<std::endl;
     
     // Solve using forwardSearch
     // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 2
-    // PathSolver* pathSolver = new PathSolver();
-    // pathSolver->forwardSearch(env);
+    PathSolver* pathSolver = new PathSolver();
+    pathSolver->startingLocation = &start;
+    pathSolver->forwardSearch(env);
 
     // NodeList* exploredPositions = nullptr;
     // exploredPositions = pathSolver->getNodesExplored();

@@ -1,6 +1,7 @@
 #include "PathSolver.h"
 #include <iostream>
 
+
 PathSolver::PathSolver(){
 
 }
@@ -18,27 +19,23 @@ void PathSolver::forwardSearch(Env env){
 
     // Store 2 lists:
     // Open - One which stores valid positions with distances from start
-
-    NodeList* open = new NodeList[ENV_DIM*ENV_DIM];
-
-    //OPEN LIST starts with the starting node (S) , add it to the array
-    //TODO
-    //Add a helper function to find S
-    // open->addElement(S);
-
     // Closed - One which stores invalid positions with distances from start
-
-    NodeList* closed = new NodeList[ENV_DIM*ENV_DIM];
-
+    
+    //OPEN LIST starts with the starting node (S) , add it to the array
+    
+    openList->addElement(this->startingLocation);
 
     // repeat
+
+    //      Check for valid nodes to add to the open list
     //      select node in the open list with the estimated closest distance
     //      this node is p
-    //      estimated closest difference == distance_travelled of selected node p + Manhattan distance from p to Goal
-    //      add each node that the closest node can reach to the open list 
+
+    //      add each node that p can reach to the open list 
     //          if not already there
-    //          add 1 distance travelled             
-    //      add p to closed list
+    //          add 1 distance travelled
+
+    //      add p to closed list (the closed list is full of valid travel nodes)
 
     // either the Goal will be reach or all connected open spaces will be added to the closed list
 
@@ -50,6 +47,64 @@ NodeList* PathSolver::getNodesExplored(){
 
 NodeList* PathSolver::getPath(Env env){
     // TODO
+}
+
+void PathSolver::nodeScanner(Env env, Node node){
+
+    // TODO separate cardinal directions into struct
+    //Scan all 4 cardinal directions for valid spaces to add to the open list
+
+    int x = node.getCol();
+    int y = node.getRow();
+
+    // Potentially map x, y modifiers to cardinal directions
+    // This could support diagonals in the future as well as
+    // cardinal directions
+
+    if((x-1) >= 0 ){
+        if(env[x-1][y] == SYMBOL_EMPTY || env[x-1][y] == SYMBOL_GOAL){
+
+            // Create node, add it to the nodelist
+
+            Node* addedNode = new Node(x-1,y,node.getDistanceTraveled()+1);
+        
+            openList->addElement(addedNode);
+        }
+    }
+
+    if((x+1) <= ENV_DIM ){
+       
+        if( env[x+1][y] == SYMBOL_EMPTY ||  env[x+1][y] == SYMBOL_GOAL){
+
+            // Create node, add it to the nodelist
+
+            Node* addedNode = new Node(x+1,y,node.getDistanceTraveled()+1);
+        
+            openList->addElement(addedNode);
+        }
+    }
+    if((y-1) >= 0 ){
+       
+        if( env[x][y-1] == SYMBOL_EMPTY ||  env[x][y-1] == SYMBOL_GOAL){
+
+            // Create node, add it to the nodelist
+
+            Node* addedNode = new Node(x,y-1,node.getDistanceTraveled()+1);
+        
+            openList->addElement(addedNode);
+        } 
+    }
+    if( (y+1) <= ENV_DIM ){
+        
+        if(env[x][y+1] == SYMBOL_EMPTY || env[x][y+1] == SYMBOL_GOAL){
+
+            // Create node, add it to the nodelist
+
+            Node* addedNode = new Node(x,y+1,node.getDistanceTraveled()+1);
+            openList->addElement(addedNode);
+        } 
+    }
+
 }
 
 //-----------------------------

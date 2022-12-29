@@ -3,6 +3,8 @@
 
 NodeList::NodeList(){
 
+    length=0;
+    
 }
 
 NodeList::~NodeList(){
