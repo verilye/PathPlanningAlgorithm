@@ -27,9 +27,14 @@ void PathSolver::forwardSearch(Env env){
 
     // repeat
 
+    //     select node in the open list with the estimated closest distance that isnt in the closed list
+    //     this node is p
+
+
+
     //      Check for valid nodes to add to the open list
-    //      select node in the open list with the estimated closest distance
-    //      this node is p
+
+
 
     //      add each node that p can reach to the open list 
     //          if not already there
@@ -47,6 +52,34 @@ NodeList* PathSolver::getNodesExplored(){
 
 NodeList* PathSolver::getPath(Env env){
     // TODO
+}
+
+void PathSolver::selectNode(){
+
+    //Pick smallest estimated difference node in open list
+
+    Node* minEstDist;
+
+    for(int i = 0; i < openList->getLength() ;i++){
+
+        //Check if in closed list
+        minEstDist = openList->getNode(i);
+
+        for(int j = 0; j< closedList->getLength(); i++){
+
+            if(minEstDist == closedList->getNode(j)){
+                
+                //reject and move on
+
+            }
+            
+        }
+
+    }
+
+    
+
+
 }
 
 void PathSolver::scanCardinalDirections(Env env, Node node){
