@@ -53,7 +53,7 @@ private:
     NodeList* openList = new NodeList[ENV_DIM*ENV_DIM];
     NodeList* closedList = new NodeList[ENV_DIM*ENV_DIM];
 
-    Node* selectNode();
+    Node selectNode();
     bool checkClosedList(Node * node);
     void scanNode(Env env, Node node, int x, int y);
     

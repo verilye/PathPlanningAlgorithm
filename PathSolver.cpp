@@ -26,21 +26,25 @@ void PathSolver::forwardSearch(Env env){
     openList->addElement(this->startingLocation);
 
     // repeat
+    while(1){
 
     //     select node in the open list with the estimated closest distance that isnt in the closed list
     //     this node is p
 
-
+        Node node = selectNode();
 
     //      Check for valid nodes to add to the open list
-
-
-
     //      add each node that p can reach to the open list 
     //          if not already there
     //          add 1 distance travelled
 
+        scanCardinalDirections(env, node);
+
     //      add p to closed list (the closed list is full of valid travel nodes)
+
+        closedList->addElement(&node);
+
+    }
 
     // either the Goal will be reach or all connected open spaces will be added to the closed list
 
@@ -54,7 +58,7 @@ NodeList* PathSolver::getPath(Env env){
     // TODO
 }
 
-Node* PathSolver::selectNode(){
+Node PathSolver::selectNode(){
 
     //TODO
     //A exit condition on this method should be that if no valid node
@@ -62,6 +66,9 @@ Node* PathSolver::selectNode(){
 
 
     //Pick smallest estimated difference node in open list
+
+    //TODO
+    //Remember the smallest option in the open list
 
     Node* minEstDist;
 
@@ -71,7 +78,7 @@ Node* PathSolver::selectNode(){
         minEstDist = openList->getNode(i);
 
         if(!checkClosedList(minEstDist)){
-            return minEstDist;
+            return *minEstDist;
         };
 
     }
@@ -131,6 +138,10 @@ void PathSolver::scanNode(Env env, Node node, int x, int y){
     if(y<0 || y>ENV_DIM){
         return ;
     }
+
+
+    //TODO
+    //ADD EXIT CONDITION TO THE ALGORITHM IF SYMBOL_GOAL
 
     // Check if symbol is valid
 
