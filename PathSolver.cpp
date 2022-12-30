@@ -54,7 +54,12 @@ NodeList* PathSolver::getPath(Env env){
     // TODO
 }
 
-void PathSolver::selectNode(){
+Node* PathSolver::selectNode(){
+
+    //TODO
+    //A exit condition on this method should be that if no valid node
+    //is found not in the closed list then there is no valid path
+
 
     //Pick smallest estimated difference node in open list
 
@@ -65,7 +70,9 @@ void PathSolver::selectNode(){
         //Check if in closed list
         minEstDist = openList->getNode(i);
 
-        checkClosedList(minEstDist);
+        if(!checkClosedList(minEstDist)){
+            return minEstDist;
+        };
 
     }
 }
