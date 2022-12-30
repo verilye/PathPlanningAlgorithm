@@ -69,6 +69,8 @@ Node PathSolver::selectNode(){
 
     //TODO
     //Remember the smallest option in the open list
+    //Remove the if condition, replace it with a counter that keeps track of the shortest distance
+    //return the node that matches up with the counter
 
     Node* minEstDist;
 
@@ -77,9 +79,9 @@ Node PathSolver::selectNode(){
         //Check if in closed list
         minEstDist = openList->getNode(i);
 
-        if(!checkClosedList(minEstDist)){
-            return *minEstDist;
-        };
+        // if(!checkClosedList(minEstDist)){
+        //     return *minEstDist;
+        // };
 
     }
 }
