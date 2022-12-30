@@ -65,22 +65,27 @@ void PathSolver::selectNode(){
         //Check if in closed list
         minEstDist = openList->getNode(i);
 
-        for(int j = 0; j< closedList->getLength(); i++){
-
-            if(minEstDist == closedList->getNode(j)){
-                
-                //reject and move on
-
-            }
-            
-        }
+        checkClosedList(minEstDist);
 
     }
+}
 
-    
+bool PathSolver::checkClosedList(Node* node){
 
+    for(int i = 0; i< closedList->getLength(); i++){
+
+        if(node == closedList->getNode(i)){
+            
+            return true;
+
+        }
+            
+    }
+
+    return false;
 
 }
+
 
 void PathSolver::scanCardinalDirections(Env env, Node node){
 
