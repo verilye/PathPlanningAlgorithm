@@ -30,6 +30,8 @@ public:
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
 
+    bool invalid;
+
 
 private:
     /*                                           */
@@ -43,6 +45,8 @@ private:
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
+
+    
 
 };
 
