@@ -11,6 +11,11 @@ PathSolver::~PathSolver(){
 }
 
 void PathSolver::forwardSearch(Env env){
+
+    // TODO
+    // Nodes explored will be a member variable that stores all variables that
+    // pass through the selectNode() method
+    // This will be the foundation of the backtracking algo in getPath();
     
     // Forward Search Algorithm
     // To visualise how this algorithm works, imagine water flooding in from 
@@ -36,7 +41,7 @@ void PathSolver::forwardSearch(Env env){
 
         Node node = selectNode();
 
-        if(node.invalid == true){
+        if(node.invalid == true || env[node.getCol()][node.getRow()] == SYMBOL_GOAL){
             runLoop = false;
             break;
         }
@@ -54,6 +59,9 @@ void PathSolver::forwardSearch(Env env){
 
     }
 
+
+
+
     // either the Goal will be reach or all connected open spaces will be added to the closed list
 
 }
@@ -64,14 +72,21 @@ NodeList* PathSolver::getNodesExplored(){
 
 NodeList* PathSolver::getPath(Env env){
     // TODO
+    // return an edited ENV with arrows pointing from the beginning to the end
+
+    // backtracking algorithm goes here
+
+    // Start from the goal node in the list nodesExplored. This would be your final element of the path.
+    // Then search for the the four neighbours of the goal node in nodesExplored. 
+    // If there is a neighbour that has distance_traveled one less than the goal node. 
+    // Then that should be the node in the path before the goal node.
+    // Repeat this backtracking process for each node you add to the path until you reach the start node.
 }
 
 Node PathSolver::selectNode(){
 
-    // TODO
-    // Keep track of shortest distance because later entries will most likely be closer
 
-    // Iterate backwards over array?
+    // Iterate backwards over array to find shortest distances faster?
 
     Node* minEstDist;
 
