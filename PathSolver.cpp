@@ -25,13 +25,21 @@ void PathSolver::forwardSearch(Env env){
     
     openList->addElement(this->startingLocation);
 
+    
+
     // repeat
-    while(1){
+    bool runLoop = true;
+    while(runLoop){
 
     //     select node in the open list with the estimated closest distance that isnt in the closed list
     //     this node is p
 
         Node node = selectNode();
+
+        if(node.invalid == true){
+            runLoop = false;
+            break;
+        }
 
     //      Check for valid nodes to add to the open list
     //      add each node that p can reach to the open list 
@@ -60,17 +68,14 @@ NodeList* PathSolver::getPath(Env env){
 
 Node PathSolver::selectNode(){
 
-    //If no valid node is found, a bad node is returned with the
-    //invalid member variable set to true;
+    // TODO
+    // Keep track of shortest distance because later entries will most likely be closer
 
-    //TODO
-    //Remember the smallest option in the open list
-    //Remove the if condition, replace it with a counter that keeps track of the shortest distance
-    //return the node that matches up with the counter
+    // Iterate backwards over array?
 
     Node* minEstDist;
 
-    for(int i = 0; i < openList->getLength() ;i++){
+    for(int i = openList->getLength(); i > 0 ;i--){
 
         //Check if in closed list
         minEstDist = openList->getNode(i);
@@ -106,10 +111,6 @@ bool PathSolver::checkClosedList(Node* node){
 
 
 void PathSolver::scanCardinalDirections(Env env, Node node){
-
-    // TODO   
-    // check to see if node in closed or open list
-
 
     //Scan all 4 cardinal directions for valid spaces to add to the open list
 
@@ -151,12 +152,12 @@ void PathSolver::scanNode(Env env, Node node, int x, int y){
 
     if(env[x][y] == SYMBOL_EMPTY || env[x][y] == SYMBOL_GOAL){
 
-        // Check if x and y exists in closed list
+        // Check if x and y exists in open list
 
-        for(int i = 0; i< closedList->getLength();i++){
+        for(int i = 0; i< openList->getLength();i++){
             
-            if(closedList->getNode(i)->getCol() == x && 
-                 closedList->getNode(i)->getRow() == y)
+            if(openList->getNode(i)->getCol() == x && 
+                 openList->getNode(i)->getRow() == y)
                 {
                     return;
                 }
