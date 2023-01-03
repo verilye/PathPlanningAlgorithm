@@ -31,7 +31,7 @@ public:
     /*                                           */
 
     bool invalid;
-
+    Node(Node &n);
 
 private:
     /*                                           */

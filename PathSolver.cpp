@@ -74,14 +74,14 @@ void PathSolver::forwardSearch(Env env){
 
     //      add p to closed list (the closed list is full of valid travel nodes)
 
-        closedList->addElement(&node);
+        closedList->addElement(new Node(node));
         
-        std::cout<< "Closed List: ";
-        for(int i = 0; i<closedList->getLength();i++){
+        // std::cout<< "Closed List: ";
+        // for(int i = 0; i<closedList->getLength();i++){
 
-            std::cout<< "("<< closedList->getNode(i)->getCol() <<","<< closedList->getNode(i)->getRow() <<")";
+        //     std::cout<< "("<< closedList->getNode(i)->getCol() <<","<< closedList->getNode(i)->getRow() <<")";
 
-        }
+        // }
 
 
     }
@@ -159,7 +159,7 @@ void PathSolver::scanCardinalDirections(Env env, Node node){
     //Scan all 4 cardinal directions for valid spaces to add to the open list
 
     int x = node.getCol();
-    int y = node.getRow(); 
+    int y = node.getRow();  
 
     int north = y-1;
     int south = y+1;
@@ -196,15 +196,18 @@ void PathSolver::scanNode(Env env, Node node, int x, int y){
 
     // Check if symbol is valid
 
-    if(env[x][y] == SYMBOL_EMPTY || env[x][y] == SYMBOL_GOAL){
+    if(env[y][x] == SYMBOL_EMPTY || env[y][x] == SYMBOL_GOAL){
 
         // Check if node exists in open and closed lists
 
-        if(openList->checkForNode(addedNode)||closedList->checkForNode(addedNode)){
+        if(openList->checkForNode(addedNode) == true||closedList->checkForNode(addedNode) == true){
             return; 
         };
 
         // Create node, add it to the openList 
+
+        // TODO
+        // ADD A COPY OF THE NODE TO THE CLOSED LIST
 
         openList->addElement(addedNode);
 

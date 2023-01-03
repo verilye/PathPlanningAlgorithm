@@ -14,6 +14,15 @@ Node::~Node(){
 
 }
 
+Node::Node(Node &n){
+
+    row=n.getRow();
+    col=n.getCol();
+    dist_traveled=n.getDistanceTraveled(); 
+
+
+};
+
 int Node::getRow(){
     
     return this->row;
