@@ -15,7 +15,7 @@ void testEnv(Env env);
 void testEstDist();
 
 // Read a environment from standard input.
-Node readEnvStdin(Env env);
+void readEnvStdin(Env env, PathSolver* pathsolver);
 
 // Print out a Environment to standard output with path.
 // To be implemented for Milestone 3
@@ -36,17 +36,15 @@ int main(int argc, char** argv){
     // Load Environment and get start node
     Env env;
 
-    // TODO
-    // Pass starting node to Pathsolver 
-    Node start = readEnvStdin(env);
+    // Pass starting node to Pathsolver and read in ENV
+    PathSolver* pathSolver = new PathSolver();
+    readEnvStdin(env, pathSolver);
     // testEnv(env);
 
-    std::cout<< std::endl<<"- - -"<<std::endl;
+    std::cout<< std::endl<<" ------- "<<std::endl;
     
     // Solve using forwardSearch
     // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 2
-    PathSolver* pathSolver = new PathSolver();
-    pathSolver->startingLocation = &start;
     pathSolver->forwardSearch(env);
 
     // NodeList* exploredPositions = nullptr;
@@ -64,12 +62,10 @@ int main(int argc, char** argv){
 
 }
 
-Node readEnvStdin(Env env){
-
-    //Assign standard input to the 2D array paramenter ENV
-    //Inject whole text files into cin??
+void readEnvStdin(Env env, PathSolver* pathsolver){
 
     Node* start;
+    Node* goal;
 
     for(int i =0 ; i<ENV_DIM;i++){
 
@@ -82,12 +78,18 @@ Node readEnvStdin(Env env){
             if(input==SYMBOL_START){
                 start = new Node(j,i,0);
             }
+            if(input==SYMBOL_GOAL){
+                goal = new Node(j,i,0);
+            }
 
             env[i][j] = input;
         }
     }
 
-    return *start;
+    pathsolver->startingLocation = start;
+    pathsolver->goal = goal;
+
+    return;
 
 }
 

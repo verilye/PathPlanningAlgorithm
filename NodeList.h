@@ -31,7 +31,7 @@ public:
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
     
-
+    bool checkForNode(Node* node);
 
 private:
     /*                                           */
@@ -48,6 +48,9 @@ private:
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
+
+
+
 };
 
 

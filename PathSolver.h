@@ -33,6 +33,9 @@ public:
     /*                                           */
 
     Node* startingLocation;
+    Node* goal;
+    NodeList* openList = new NodeList[ENV_DIM*ENV_DIM];
+    NodeList* closedList = new NodeList[ENV_DIM*ENV_DIM];
 
 
     //TODO separatae cardinal directions into a struct
@@ -50,11 +53,7 @@ private:
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
 
-    NodeList* openList = new NodeList[ENV_DIM*ENV_DIM];
-    NodeList* closedList = new NodeList[ENV_DIM*ENV_DIM];
-
     Node selectNode();
-    bool checkClosedList(Node * node);
     void scanNode(Env env, Node node, int x, int y);
     
 };

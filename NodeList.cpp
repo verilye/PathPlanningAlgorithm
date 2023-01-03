@@ -29,6 +29,21 @@ void NodeList::addElement(Node* newPos){
 
 }
 
+bool NodeList::checkForNode(Node* node){
+
+    for(int i = 0; i< this->getLength();i++){
+        
+        if(this->getNode(i)->getCol() == node->getCol() && 
+                this->getNode(i)->getRow() == node->getRow())
+            {
+                return true;
+            }
+    }
+
+    return false;
+
+}
+
 Node* NodeList::getNode(int i){
 
     return this->nodes[i];

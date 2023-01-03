@@ -8,6 +8,7 @@ PathSolver::PathSolver(){
 
 PathSolver::~PathSolver(){
 
+    
 }
 
 void PathSolver::forwardSearch(Env env){
@@ -30,16 +31,23 @@ void PathSolver::forwardSearch(Env env){
     
     openList->addElement(this->startingLocation);
 
-    
+    // std::cout<< "forward search initialised" << std::endl;
+    // std::cout<< "Open List: "<< openList->getNode(0)->getCol() << openList->getNode(0)->getRow() << std::endl;
+    // std::cout<< "Closed List: "<< closedList->getLength()<< std::endl;
+    // std::cout<< openList->getLength() <<std::endl;    
 
     // repeat
     bool runLoop = true;
     while(runLoop){
 
-    //     select node in the open list with the estimated closest distance that isnt in the closed list
-    //     this node is p
+    //  select node in the open list with the estimated closest distance that isnt in the closed list
+    //  this node is p
+
+    //  the node's invalid property is there for readability 
 
         Node node = selectNode();
+
+        std::cout<< "Selected node: "<< node.getCol() <<","<< node.getRow() << std::endl;
 
         if(node.invalid == true || env[node.getCol()][node.getRow()] == SYMBOL_GOAL){
             runLoop = false;
@@ -50,14 +58,36 @@ void PathSolver::forwardSearch(Env env){
     //      add each node that p can reach to the open list 
     //          if not already there
     //          add 1 distance travelled
-
+        
         scanCardinalDirections(env, node);
+
+        std::cout<< "scanned all directions" << std::endl;
+
+        // TEST that the lists are filled with correct inputs
+        std::cout<< "Open List: ";
+        for(int i = 0; i<openList->getLength();i++){
+
+            std::cout<< "("<< openList->getNode(i)->getCol() <<","<< openList->getNode(i)->getRow() <<")";
+
+        }
+
 
     //      add p to closed list (the closed list is full of valid travel nodes)
 
         closedList->addElement(&node);
+        
+        // std::cout<< "Closed List: ";
+        // for(int i = 0; i<closedList->getLength();i++){
+
+        //     std::cout<< "("<< closedList->getNode(i)->getCol() <<","<< closedList->getNode(i)->getRow() <<")";
+
+        // }
+
 
     }
+
+
+    
 
 
 
@@ -85,44 +115,43 @@ NodeList* PathSolver::getPath(Env env){
 
 Node PathSolver::selectNode(){
 
+    // Select node with the shortest estmated distance
 
-    // Iterate backwards over array to find shortest distances faster?
+    Node* node;
+    int closestDistance = ENV_DIM * ENV_DIM;
+    int closestNode = -1;
+    int iterator = openList->getLength();
 
-    Node* minEstDist;
+    for(int i = 0; i<openList->getLength(); i++){
 
-    for(int i = openList->getLength(); i > 0 ;i--){
+        node = openList->getNode(i);
 
-        //Check if in closed list
-        minEstDist = openList->getNode(i);
+        //compare to lowest distance
 
-        if(!checkClosedList(minEstDist)){
-            return *minEstDist;
-        };
+        if(node->getEstimatedDist2Goal(this->goal) < closestDistance && !closedList->checkForNode(node)){
 
-    }
-
-    Node* invalid = new Node(-1,-1,-1);
-    invalid->invalid = true;
-    
-    return *invalid;
-
-}
-
-bool PathSolver::checkClosedList(Node* node){
-
-    for(int i = 0; i< closedList->getLength(); i++){
-
-        if(node == closedList->getNode(i)){
-            
-            return true;
+            //override with new node if not in closed list and lower than closest Distance
+            closestNode = i;
+            closestDistance = node->getEstimatedDist2Goal(this->goal); 
 
         }
-            
+
     }
 
-    return false;
 
-}
+    if(closestNode == -1){
+         Node* invalid = new Node(-1,-1,-1);
+        invalid->invalid = true;
+    
+        return *invalid;
+    }else{
+        return *openList->getNode(closestNode);
+
+    }
+   
+
+};
+
 
 
 void PathSolver::scanCardinalDirections(Env env, Node node){
@@ -159,6 +188,8 @@ void PathSolver::scanNode(Env env, Node node, int x, int y){
         return ;
     }
 
+    Node* addedNode = new Node(y,x,node.getDistanceTraveled()+1);
+
 
     //TODO
     //ADD EXIT CONDITION TO THE ALGORITHM IF SYMBOL_GOAL
@@ -167,20 +198,13 @@ void PathSolver::scanNode(Env env, Node node, int x, int y){
 
     if(env[x][y] == SYMBOL_EMPTY || env[x][y] == SYMBOL_GOAL){
 
-        // Check if x and y exists in open list
+        // Check if node exists in open and closed lists
 
-        for(int i = 0; i< openList->getLength();i++){
-            
-            if(openList->getNode(i)->getCol() == x && 
-                 openList->getNode(i)->getRow() == y)
-                {
-                    return;
-                }
-        }
+        if(openList->checkForNode(addedNode)||closedList->checkForNode(addedNode)){
+            return; 
+        };
 
-         // Create node, add it to the nodelist
-
-        Node* addedNode = new Node(x,y,node.getDistanceTraveled()+1);
+        // Create node, add it to the openList 
 
         openList->addElement(addedNode);
 
