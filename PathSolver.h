@@ -34,8 +34,8 @@ public:
 
     Node* startingLocation;
     Node* goal;
-    NodeList* openList = new NodeList[ENV_DIM*ENV_DIM];
-    NodeList* closedList = new NodeList[ENV_DIM*ENV_DIM];
+    NodeList* openList = new NodeList;
+    NodeList* closedList = new NodeList;
 
 
     //TODO separatae cardinal directions into a struct

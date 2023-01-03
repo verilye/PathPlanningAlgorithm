@@ -76,12 +76,12 @@ void PathSolver::forwardSearch(Env env){
 
         closedList->addElement(&node);
         
-        // std::cout<< "Closed List: ";
-        // for(int i = 0; i<closedList->getLength();i++){
+        std::cout<< "Closed List: ";
+        for(int i = 0; i<closedList->getLength();i++){
 
-        //     std::cout<< "("<< closedList->getNode(i)->getCol() <<","<< closedList->getNode(i)->getRow() <<")";
+            std::cout<< "("<< closedList->getNode(i)->getCol() <<","<< closedList->getNode(i)->getRow() <<")";
 
-        // }
+        }
 
 
     }
@@ -128,7 +128,7 @@ Node PathSolver::selectNode(){
 
         //compare to lowest distance
 
-        if(node->getEstimatedDist2Goal(this->goal) < closestDistance && !closedList->checkForNode(node)){
+        if(node->getEstimatedDist2Goal(this->goal) < closestDistance && closedList->checkForNode(node) == false){
 
             //override with new node if not in closed list and lower than closest Distance
             closestNode = i;

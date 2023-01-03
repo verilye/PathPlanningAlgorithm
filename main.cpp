@@ -76,10 +76,10 @@ void readEnvStdin(Env env, PathSolver* pathsolver){
             std::cin >> input;
 
             if(input==SYMBOL_START){
-                start = new Node(j,i,0);
+                start = new Node(i,j,0);
             }
             if(input==SYMBOL_GOAL){
-                goal = new Node(j,i,0);
+                goal = new Node(i,j,0);
             }
 
             env[i][j] = input;
