@@ -14,7 +14,15 @@ NodeList::~NodeList(){
 }
 
 NodeList::NodeList(NodeList& other){
-    // TODO
+    
+    
+    for(int i = 0; i< other.getLength();i++){
+
+        nodes[i] = new Node(*other.getNode(i));
+
+    }
+
+    length = other.length;
 }
 
 int NodeList::getLength(){

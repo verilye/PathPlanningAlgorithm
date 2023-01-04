@@ -47,7 +47,7 @@ void PathSolver::forwardSearch(Env env){
 
         Node node = selectNode();
 
-        std::cout<< "Selected node: "<< node.getCol() <<","<< node.getRow() << std::endl;
+        // std::cout<< "Selected node: "<< node.getCol() <<","<< node.getRow() << std::endl;
 
 
     //TODO

@@ -35,10 +35,7 @@ public:
     Node* startingLocation;
     Node* goal;
     NodeList* openList = new NodeList;
-    NodeList* closedList = new NodeList;
-
-
-    //TODO separatae cardinal directions into a struct
+    
     void scanCardinalDirections(Env env, Node node);
 
 private:
@@ -47,7 +44,7 @@ private:
     /*                                           */
 
     // Nodes explored in forward search algorithm
-    NodeList* nodesExplored;
+    NodeList* closedList = new NodeList;
 
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
