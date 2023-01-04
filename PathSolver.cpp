@@ -49,7 +49,19 @@ void PathSolver::forwardSearch(Env env){
 
         std::cout<< "Selected node: "<< node.getCol() <<","<< node.getRow() << std::endl;
 
-        if(node.invalid == true || env[node.getCol()][node.getRow()] == SYMBOL_GOAL){
+
+    //TODO
+    //ADD EXIT CONDITION TO THE ALGORITHM IF SYMBOL_GOAL
+
+        if(node.getRow() == this->goal->getRow() && node.getCol() == this->goal->getCol()){
+
+            runLoop = false;
+            closedList->addElement(new Node(node));
+            break;
+
+        }
+
+        if(node.invalid == true){
             runLoop = false;
             break;
         }
@@ -61,37 +73,29 @@ void PathSolver::forwardSearch(Env env){
         
         scanCardinalDirections(env, node);
 
-        std::cout<< "scanned all directions" << std::endl;
+    // std::cout<< "scanned all directions" << std::endl;
 
-        // TEST that the lists are filled with correct inputs
-        std::cout<< "Open List: ";
-        for(int i = 0; i<openList->getLength();i++){
-
-            std::cout<< "("<< openList->getNode(i)->getCol() <<","<< openList->getNode(i)->getRow() <<")";
-
-        }
+        
 
 
     //      add p to closed list (the closed list is full of valid travel nodes)
 
         closedList->addElement(new Node(node));
         
-        // std::cout<< "Closed List: ";
-        // for(int i = 0; i<closedList->getLength();i++){
-
-        //     std::cout<< "("<< closedList->getNode(i)->getCol() <<","<< closedList->getNode(i)->getRow() <<")";
-
-        // }
-
-
     }
 
-
-    
-
-
-
-
+    // TEST that the lists are filled with correct inputs
+    // std::cout<<std::endl<<"------"<<std::endl;
+    // std::cout<< "Open List: ";
+    // for(int i = 0; i<openList->getLength();i++){
+    //     std::cout<< "("<< openList->getNode(i)->getCol() <<","<< openList->getNode(i)->getRow() <<")";
+    // }
+    // std::cout<<std::endl<<"------"<<std::endl;
+    // std::cout<< "Closed List: ";
+    // for(int i = 0; i<closedList->getLength();i++){
+    //     std::cout<< "("<< closedList->getNode(i)->getCol() <<","<< closedList->getNode(i)->getRow() <<")";
+    // }
+    // std::cout<<std::endl<<"------"<<std::endl;
     // either the Goal will be reach or all connected open spaces will be added to the closed list
 
 }
@@ -191,9 +195,6 @@ void PathSolver::scanNode(Env env, Node node, int x, int y){
     Node* addedNode = new Node(y,x,node.getDistanceTraveled()+1);
 
 
-    //TODO
-    //ADD EXIT CONDITION TO THE ALGORITHM IF SYMBOL_GOAL
-
     // Check if symbol is valid
 
     if(env[y][x] == SYMBOL_EMPTY || env[y][x] == SYMBOL_GOAL){
@@ -206,7 +207,6 @@ void PathSolver::scanNode(Env env, Node node, int x, int y){
 
         // Create node, add it to the openList 
 
-        // TODO
         // ADD A COPY OF THE NODE TO THE CLOSED LIST
 
         openList->addElement(addedNode);
