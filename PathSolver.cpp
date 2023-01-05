@@ -12,11 +12,6 @@ PathSolver::~PathSolver(){
 }
 
 void PathSolver::forwardSearch(Env env){
-
-    // TODO
-    // Nodes explored will be a member variable that stores all variables that
-    // pass through the selectNode() method
-    // This will be the foundation of the backtracking algo in getPath();
     
     // Forward Search Algorithm
     // To visualise how this algorithm works, imagine water flooding in from 
@@ -84,6 +79,8 @@ void PathSolver::forwardSearch(Env env){
         
     }
 
+    NodeList* nodelist = getPath(env);
+
     // TEST that the lists are filled with correct inputs
     // std::cout<<std::endl<<"------"<<std::endl;
     // std::cout<< "Open List: ";
@@ -93,28 +90,83 @@ void PathSolver::forwardSearch(Env env){
     // std::cout<<std::endl<<"------"<<std::endl;
     // std::cout<< "Closed List: ";
     // for(int i = 0; i<closedList->getLength();i++){
-    //     std::cout<< "("<< closedList->getNode(i)->getCol() <<","<< closedList->getNode(i)->getRow() <<")";
+    //     // std::cout<< "("<< closedList->getNode(i)->getCol() <<","<< closedList->getNode(i)->getRow() <<")";
+    //     std::cout<< closedList->getNode(i)->getDistanceTraveled() << ", ";
     // }
     // std::cout<<std::endl<<"------"<<std::endl;
-    // either the Goal will be reach or all connected open spaces will be added to the closed list
+    
 
 }
 
 NodeList* PathSolver::getNodesExplored(){
-    //TODO
+    
+    NodeList* deepCopy = new NodeList(*closedList);
+
+    return deepCopy;
+
 }
 
 NodeList* PathSolver::getPath(Env env){
-    // TODO
-    // return an edited ENV with arrows pointing from the beginning to the end
 
-    // backtracking algorithm goes here
+    NodeList* nodesExplored = getNodesExplored();
+    Node* reverseRobo = nodesExplored->getNode(nodesExplored->getLength());
+    NodeList* path = new NodeList;
 
     // Start from the goal node in the list nodesExplored. This would be your final element of the path.
-    // Then search for the the four neighbours of the goal node in nodesExplored. 
-    // If there is a neighbour that has distance_traveled one less than the goal node. 
-    // Then that should be the node in the path before the goal node.
-    // Repeat this backtracking process for each node you add to the path until you reach the start node.
+    
+    int distance = goal->getDistanceTraveled();
+
+    path->addAtIndex(reverseRobo, distance);
+
+    // Then search for the the four neighbours of the goal node in nodesExplored.     
+    // check if they are -1 distance travelled, 
+    // then check all nodes that have either the same col or row
+    // then check that the other axis is + or - 1 
+
+    std::cout<<"BIG CHUNGUS"<<std::endl;
+
+    for(int i = 0; i< goal->getDistanceTraveled(); i++){
+
+        Node* options[goal->getDistanceTraveled()];
+
+        int counter = 0;
+
+        for(int j =0;j<nodesExplored->getLength();j++){
+            
+            if(nodesExplored->getNode(j)->getDistanceTraveled() == distance - 1){
+                if(nodesExplored->getNode(j)->getCol() == reverseRobo->getCol() || 
+                    nodesExplored->getNode(j)->getRow() == reverseRobo->getRow()){
+                    if(nodesExplored->getNode(j)->getCol() == reverseRobo->getCol() + 1|| 
+                      nodesExplored->getNode(j)->getRow() == reverseRobo->getRow() + 1||
+                      nodesExplored->getNode(j)->getCol() == reverseRobo->getCol() -1|| 
+                      nodesExplored->getNode(j)->getRow() == reverseRobo->getRow()-1){
+
+                            path->addAtIndex(nodesExplored->getNode(j), distance);
+                            reverseRobo = nodesExplored->getNode(j);
+                            distance --;
+
+                        }
+                }
+            }
+        }
+
+    }
+
+
+    
+
+    std::cout<< "Path List: ";
+    for(int i = 0; i<path->getLength();i++){
+        // std::cout<< "("<< path->getNode(i)->getCol() <<","<< path->getNode(i)->getRow() <<")";
+        std::cout<< path->getNode(i)->getDistanceTraveled() << ", ";
+    }
+    std::cout<<std::endl<<"------"<<std::endl;
+    
+
+    return path;
+
+    // return an edited ENV with arrows pointing from the beginning to the end
+
 }
 
 Node PathSolver::selectNode(){

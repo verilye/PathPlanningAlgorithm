@@ -33,6 +33,8 @@ public:
     
     bool checkForNode(Node* node);
 
+    void addAtIndex(Node* newNode, int index);
+
 private:
     /*                                           */
     /* DO NOT MOFIFY THESE VARIABLES             */
