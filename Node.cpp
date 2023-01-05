@@ -18,7 +18,7 @@ Node::Node(Node &n){
 
     row=n.getRow();
     col=n.getCol();
-    dist_traveled=n.getDistanceTraveled(); 
+    this->setDistanceTraveled(n.getDistanceTraveled()); 
 
 
 };

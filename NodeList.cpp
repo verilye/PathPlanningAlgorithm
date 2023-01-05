@@ -9,8 +9,6 @@ NodeList::NodeList(){
 
 NodeList::~NodeList(){
 
-    std::cout<<"NodeList deleted!"<<std::endl;
-
 }
 
 NodeList::NodeList(NodeList& other){
@@ -18,11 +16,12 @@ NodeList::NodeList(NodeList& other){
     
     for(int i = 0; i< other.getLength();i++){
 
-        nodes[i] = new Node(*other.getNode(i));
+        this->nodes[i] = new Node(*other.getNode(i));
 
     }
 
-    length = other.length;
+    this->length = other.getLength();
+
 }
 
 int NodeList::getLength(){

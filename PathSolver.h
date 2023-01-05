@@ -36,7 +36,9 @@ public:
     Node* goal;
     NodeList* openList = new NodeList;
     
+    Node* selectNode();
     void scanCardinalDirections(Env env, Node node);
+    void scanNode(Env env, Node node, int x, int y);
 
 private:
     /*                                           */
@@ -50,9 +52,6 @@ private:
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
 
-    Node selectNode();
-    void scanNode(Env env, Node node, int x, int y);
-    
 };
 
 

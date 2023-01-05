@@ -8,6 +8,10 @@ PathSolver::PathSolver(){
 
 PathSolver::~PathSolver(){
 
+    delete startingLocation;
+    delete goal;
+    delete openList;
+    delete closedList;
     
 }
 
@@ -40,7 +44,7 @@ void PathSolver::forwardSearch(Env env){
 
     //  the node's invalid property is there for readability 
 
-        Node node = selectNode();
+        Node* node = selectNode();
 
         // std::cout<< "Selected node: "<< node.getCol() <<","<< node.getRow() << std::endl;
 
@@ -48,15 +52,15 @@ void PathSolver::forwardSearch(Env env){
     //TODO
     //ADD EXIT CONDITION TO THE ALGORITHM IF SYMBOL_GOAL
 
-        if(node.getRow() == this->goal->getRow() && node.getCol() == this->goal->getCol()){
+        if(node->getRow() == this->goal->getRow() && node->getCol() == this->goal->getCol()){
 
             runLoop = false;
-            closedList->addElement(new Node(node));
+            closedList->addElement(new Node(*node));
             break;
 
         }
 
-        if(node.invalid == true){
+        if(node->invalid == true){
             runLoop = false;
             break;
         }
@@ -66,7 +70,7 @@ void PathSolver::forwardSearch(Env env){
     //          if not already there
     //          add 1 distance travelled
         
-        scanCardinalDirections(env, node);
+        scanCardinalDirections(env, *node);
 
     // std::cout<< "scanned all directions" << std::endl;
 
@@ -75,11 +79,11 @@ void PathSolver::forwardSearch(Env env){
 
     //      add p to closed list (the closed list is full of valid travel nodes)
 
-        closedList->addElement(new Node(node));
+        closedList->addElement(new Node(*node));
         
     }
 
-    NodeList* nodelist = getPath(env);
+    getPath(env);
 
     // TEST that the lists are filled with correct inputs
     // std::cout<<std::endl<<"------"<<std::endl;
@@ -100,7 +104,7 @@ void PathSolver::forwardSearch(Env env){
 
 NodeList* PathSolver::getNodesExplored(){
     
-    NodeList* deepCopy = new NodeList(*closedList);
+    NodeList* deepCopy = new NodeList(*this->closedList);
 
     return deepCopy;
 
@@ -114,7 +118,7 @@ NodeList* PathSolver::getPath(Env env){
 
     // Start from the goal node in the list nodesExplored. This would be your final element of the path.
     
-    int distance = goal->getDistanceTraveled();
+    int distance = nodesExplored->getLength();
 
     path->addAtIndex(reverseRobo, distance);
 
@@ -123,44 +127,35 @@ NodeList* PathSolver::getPath(Env env){
     // then check all nodes that have either the same col or row
     // then check that the other axis is + or - 1 
 
-    std::cout<<"BIG CHUNGUS"<<std::endl;
+    for(int j = 0; j<nodesExplored->getLength(); j++){
 
-    for(int i = 0; i< goal->getDistanceTraveled(); i++){
+        
+    
+        if(nodesExplored->getNode(j)->getDistanceTraveled() == distance - 1){
+            std::cout<<"a, "<<std::endl;
+            if(nodesExplored->getNode(j)->getCol() == reverseRobo->getCol() || 
+                nodesExplored->getNode(j)->getRow() == reverseRobo->getRow()){
+                std::cout<<"b, "<<std::endl;
+                if(nodesExplored->getNode(j)->getCol() == reverseRobo->getCol() + 1|| 
+                nodesExplored->getNode(j)->getRow() == reverseRobo->getRow() + 1||
+                nodesExplored->getNode(j)->getCol() == reverseRobo->getCol() -1|| 
+                nodesExplored->getNode(j)->getRow() == reverseRobo->getRow()-1){
 
-        Node* options[goal->getDistanceTraveled()];
+                        path->addAtIndex(nodesExplored->getNode(j), distance);
+                        reverseRobo = nodesExplored->getNode(j);
+                        distance --;
 
-        int counter = 0;
-
-        for(int j =0;j<nodesExplored->getLength();j++){
-            
-            if(nodesExplored->getNode(j)->getDistanceTraveled() == distance - 1){
-                if(nodesExplored->getNode(j)->getCol() == reverseRobo->getCol() || 
-                    nodesExplored->getNode(j)->getRow() == reverseRobo->getRow()){
-                    if(nodesExplored->getNode(j)->getCol() == reverseRobo->getCol() + 1|| 
-                      nodesExplored->getNode(j)->getRow() == reverseRobo->getRow() + 1||
-                      nodesExplored->getNode(j)->getCol() == reverseRobo->getCol() -1|| 
-                      nodesExplored->getNode(j)->getRow() == reverseRobo->getRow()-1){
-
-                            path->addAtIndex(nodesExplored->getNode(j), distance);
-                            reverseRobo = nodesExplored->getNode(j);
-                            distance --;
-
-                        }
-                }
+                    }
             }
         }
-
     }
 
-
-    
-
-    std::cout<< "Path List: ";
-    for(int i = 0; i<path->getLength();i++){
-        // std::cout<< "("<< path->getNode(i)->getCol() <<","<< path->getNode(i)->getRow() <<")";
-        std::cout<< path->getNode(i)->getDistanceTraveled() << ", ";
-    }
-    std::cout<<std::endl<<"------"<<std::endl;
+    // std::cout<< "Path List: ";
+    // for(int i = 0; i<path->getLength();i++){
+    //     // std::cout<< "("<< path->getNode(i)->getCol() <<","<< path->getNode(i)->getRow() <<")";
+    //     std::cout<< path->getNode(i)->getDistanceTraveled() << ", ";
+    // }
+    // std::cout<<std::endl<<"------"<<std::endl;
     
 
     return path;
@@ -169,7 +164,7 @@ NodeList* PathSolver::getPath(Env env){
 
 }
 
-Node PathSolver::selectNode(){
+Node* PathSolver::selectNode(){
 
     // Select node with the shortest estmated distance
 
@@ -199,9 +194,9 @@ Node PathSolver::selectNode(){
          Node* invalid = new Node(-1,-1,-1);
         invalid->invalid = true;
     
-        return *invalid;
+        return invalid;
     }else{
-        return *openList->getNode(closestNode);
+        return openList->getNode(closestNode);
 
     }
    
