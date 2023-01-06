@@ -65,5 +65,6 @@ Node* NodeList::getNode(int i){
 void NodeList::addAtIndex(Node* node, int index){
     
     this->nodes[index] = node;
+    this->length = this->length + 1;
 
 }

@@ -107,7 +107,7 @@ void PathSolver::forwardSearch(Env env){
 
     }
 
-    
+
 
 }
 
@@ -138,9 +138,10 @@ NodeList* PathSolver::getPath(Env env){
     NodeList* path = new NodeList;
 
     Node* reverseRobo = new Node(*goal);
-    path->addElement(new Node(*reverseRobo));
-
     int distance = reverseRobo->getDistanceTraveled();    
+    path->addAtIndex(new Node(*reverseRobo),distance);
+
+    
 
     // Start from the goal node in the list nodesExplored. This would be your final element of the path.
 
@@ -150,7 +151,7 @@ NodeList* PathSolver::getPath(Env env){
     // then check all nodes that have either the same col or row
     // then check that the other axis is + or - 1 
 
-    for(int i =0; i< goal->getDistanceTraveled(); i++){
+    for(int i = goal->getDistanceTraveled(); i>0; i--){
         for(int j =0; j<nodesExplored->getLength();j++){
 
             if(nodesExplored->getNode(j)->getDistanceTraveled() == distance -1){
@@ -165,8 +166,9 @@ NodeList* PathSolver::getPath(Env env){
                     {
                         delete reverseRobo;    
                         reverseRobo = new Node(*nodesExplored->getNode(j));
-                        path->addElement(new Node(*nodesExplored->getNode(j)));
                         distance = reverseRobo->getDistanceTraveled();
+                        path->addAtIndex(new Node(*nodesExplored->getNode(j)), distance);
+                        
                         break;
                     }
                 }
@@ -174,6 +176,8 @@ NodeList* PathSolver::getPath(Env env){
         }
     }
     
+    delete nodesExplored;
+
     return path;
 
     // return an edited ENV with arrows pointing from the beginning to the end
