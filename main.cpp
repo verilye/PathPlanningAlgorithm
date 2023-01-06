@@ -2,11 +2,13 @@
 #include <fstream>
 #include <stdexcept>
 #include <string>
+#include <queue>
 
 #include "Types.h"
 #include "Node.h"
 #include "NodeList.h"
 #include "PathSolver.h"
+
 
 // Helper test functions
 void testNode();
@@ -14,15 +16,21 @@ void testNodeList();
 void testEstDist();
 
 // Read a environment from standard input.
-void readEnvStdin(Env env, PathSolver* pathsolver);
+Env readEnvStdin(PathSolver* pathsolver);
 
 // Print out a Environment to standard output with path.
 // To be implemented for Milestone 3
 void printEnvStdout(Env env, NodeList* solution);
 void printEnv(Env env);
 
+Env make_env(const int rows, const int cols);
+void delete_env(Env env, int rows, int cols);
+
+int ROWS = 0;
+int COLUMNS = 0;
 
 int main(int argc, char** argv){
+    
     // THESE ARE SOME EXAMPLE FUNCTIONS TO HELP TEST YOUR CODE
     // AS YOU WORK ON MILESTONE 2. YOU CAN UPDATE THEM YOURSELF
     // AS YOU GO ALONG.
@@ -33,18 +41,15 @@ int main(int argc, char** argv){
     // testEstDist();
     // std::cout << "DONE TESTING" << std::endl << std::endl;
 
-    // Load Environment and get start node
-    Env env;
 
     // Pass starting node to Pathsolver and read in ENV
     PathSolver* pathSolver = new PathSolver();
-    readEnvStdin(env, pathSolver);
-    // printEnv(env);
-
-    std::cout<< std::endl<<" ------- "<<std::endl;
+    Env env = readEnvStdin(pathSolver);
+    printEnv(env);
+    // std::cout<< std::endl<<" ------- "<<std::endl;
     
-    // Solve using forwardSearch
-    // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 2
+    // // Solve using forwardSearch
+    // // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 2
     pathSolver->forwardSearch(env);
 
     NodeList* exploredPositions = nullptr;
@@ -62,34 +67,57 @@ int main(int argc, char** argv){
 
 }
 
-void readEnvStdin(Env env, PathSolver* pathsolver){
+Env readEnvStdin(PathSolver* pathsolver){
 
-    Node* start;
-    Node* goal;
+    Node* start = nullptr;
+    Node* goal = nullptr;
 
-    for(int i =0 ; i<ENV_DIM;i++){
-
-        for(int j = 0; j<ENV_DIM;j++){
-
-            char input;
-
-            std::cin >> input;
-
-            if(input==SYMBOL_START){
-                start = new Node(i,j,0);
-            }
-            if(input==SYMBOL_GOAL){
-                goal = new Node(i,j,0);
-            }
-
-            env[i][j] = input;
+    char c = 'a';
+    int COLUMNS = 0, ROWS = 0;
+    bool firstLine = true;
+    std::queue<char> firstChars;
+    // Read input to determine env dimensions, push each character to a queue
+    while (!std::cin.eof()) {
+        std::cin.get(c);
+        if(c == '\n') {
+            ROWS++;
+            firstLine = false;
+        } else {
+            firstChars.push(c);
         }
+        if(firstLine) {
+            COLUMNS++;
+        }
+    }  
+    
+    ROWS++;
+    
+    Env env = make_env(ROWS, COLUMNS);
+    // Assign each character in queue to appropriate position within env
+    for (int row = 0; row < ROWS; row++) {
+        for (int col = 0; col < COLUMNS; col++) {
+            c = firstChars.front();
+            firstChars.pop();
+            env[row][col] = c;
+            // We assign our start and goal positions to nodes
+            if(c == SYMBOL_START) {
+                 start= new Node(row, col, 0);
+            } else if (c == SYMBOL_GOAL) {
+                 goal = new Node(row, col, 0);
+            }
+        }
+    }
+
+    if(start==nullptr ||goal == nullptr){
+
+        exit(EXIT_FAILURE);
+        
     }
 
     pathsolver->startingLocation = start;
     pathsolver->goal = goal;
 
-    return;
+    return env;
 
 }
 
@@ -106,7 +134,7 @@ void printEnvStdout(Env env, NodeList* solution) {
     char east = '>';
     char west = '<';
 
-    for(int i=0; i<solution->getLength()-1;i++){
+    for(int i=1; i<solution->getLength()-1;i++){
 
         Node* robo = new Node(*solution->getNode(i));
         Node* next = new Node(*solution->getNode(i+1));
@@ -127,6 +155,40 @@ void printEnvStdout(Env env, NodeList* solution) {
     }
 
     printEnv(env);
+}
+
+
+/*
+ * This function is to help you dynamically allocate
+ *  memory for a generic 2D Environemnt.
+ */
+Env make_env(const int rows, const int cols) {
+   Env env = nullptr;
+
+   if (rows >= 0 && cols >= 0) {
+      env = new char*[rows];
+      for (int i = 0; i != rows; ++i) {
+         env[i] = new char[cols];
+      }
+   }
+
+   return env;
+}
+
+/*
+ * This function is to help you delete a 
+ * dynamically allocated 2D Environment.
+ */
+
+void delete_env(Env env, int rows, int cols) {
+   if (rows >= 0 && cols >= 0) {
+      for (int i = 0; i != rows; ++i) {
+         delete env[i];
+      }
+      delete env;
+   }
+
+   return;
 }
 
 void testNode() {
@@ -176,9 +238,9 @@ void testNodeList() {
 
 void printEnv(Env env){
 
-     for(int i =0 ; i<20;i++){
+     for(int i =0 ; i<ROWS;i++){
 
-        for(int j =0; j<20;j++){
+        for(int j =0; j<COLUMNS;j++){
 
             std::cout<< env[i][j];
 

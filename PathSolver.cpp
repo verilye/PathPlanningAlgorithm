@@ -150,7 +150,6 @@ Node* PathSolver::selectNode(){
     Node* node;
     int closestDistance = ENV_DIM * ENV_DIM;
     int closestNode = -1;
-    int iterator = openList->getLength();
 
     for(int i = 0; i<openList->getLength(); i++){
 

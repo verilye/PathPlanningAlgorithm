@@ -4,11 +4,16 @@
 NodeList::NodeList(){
 
     this->length=0;
+    nodes = new Node*[length];
+
     
 }
 
 NodeList::~NodeList(){
-
+    for(int i = 0; i < length; i++) {
+        delete nodes[i];
+    }
+    delete [] nodes;
 }
 
 NodeList::NodeList(NodeList& other){
