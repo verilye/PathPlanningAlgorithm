@@ -47,18 +47,18 @@ int main(int argc, char** argv){
     // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 2
     pathSolver->forwardSearch(env);
 
-    // NodeList* exploredPositions = nullptr;
-    // exploredPositions = pathSolver->getNodesExplored();
+    NodeList* exploredPositions = nullptr;
+    exploredPositions = pathSolver->getNodesExplored();
 
     // Get the path
     // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 3
-    // NodeList* solution = pathSolver->getPath(env);
+    NodeList* solution = pathSolver->getPath(env);
 
-    // printEnvStdout(env, solution);
+    printEnvStdout(env, solution);
 
-    // delete pathSolver;
-    // delete exploredPositions;
-    // delete solution;
+    delete pathSolver;
+    delete exploredPositions;
+    delete solution;
 
 }
 
@@ -94,7 +94,22 @@ void readEnvStdin(Env env, PathSolver* pathsolver){
 }
 
 void printEnvStdout(Env env, NodeList* solution) {
-    //TODO
+    
+    // TODO
+    // Print edited env with arrows instead of empty places along the rout
+
+    // row +1 or -1, is east and west;
+    // col -1 or +1 is north and sout;
+
+    char north = '^';
+    char south = 'v';
+    char east = '>';
+    char west = '<';
+
+
+
+
+
 }
 
 void testNode() {

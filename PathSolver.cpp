@@ -30,11 +30,6 @@ void PathSolver::forwardSearch(Env env){
     
     openList->addElement(this->startingLocation);
 
-    // std::cout<< "forward search initialised" << std::endl;
-    // std::cout<< "Open List: "<< openList->getNode(0)->getCol() << openList->getNode(0)->getRow() << std::endl;
-    // std::cout<< "Closed List: "<< closedList->getLength()<< std::endl;
-    // std::cout<< openList->getLength() <<std::endl;    
-
     // repeat
     bool runLoop = true;
     while(runLoop){
@@ -45,12 +40,6 @@ void PathSolver::forwardSearch(Env env){
     //  the node's invalid property is there for readability 
 
         Node* node = selectNode();
-
-        // std::cout<< "Selected node: "<< node.getCol() <<","<< node.getRow() << std::endl;
-
-
-    //TODO
-    //ADD EXIT CONDITION TO THE ALGORITHM IF SYMBOL_GOAL
 
         if(node->getRow() == this->goal->getRow() && node->getCol() == this->goal->getCol()){
 
@@ -73,41 +62,11 @@ void PathSolver::forwardSearch(Env env){
         
         scanCardinalDirections(env, *node);
 
-    // std::cout<< "scanned all directions" << std::endl;
-
-        
-
-
     //      add p to closed list (the closed list is full of valid travel nodes)
 
         closedList->addElement(new Node(*node));
         
     }
-
-    NodeList* path = getPath(env);
-
-    // TEST that the lists are filled with correct inputs
-    // std::cout<<std::endl<<"------"<<std::endl;
-    // std::cout<< "Open List: ";
-    // for(int i = 0; i<openList->getLength();i++){
-    //     std::cout<< "("<< openList->getNode(i)->getCol() <<","<< openList->getNode(i)->getRow() <<")";
-    // }
-    // std::cout<<std::endl<<"------"<<std::endl;
-    // std::cout<< "Closed List: ";
-    // for(int i = 0; i<closedList->getLength();i++){
-    //     std::cout<< "("<< closedList->getNode(i)->getCol() <<","<< closedList->getNode(i)->getRow() <<")";
-    //     // std::cout<< closedList->getNode(i)->getDistanceTraveled() << ", ";
-    // }
-    // std::cout<<std::endl<<"------"<<std::endl;
-
-    for(int i = 0;i<path->getLength();i++){
-
-        // std::cout<< "("<< path->getNode(i)->getCol() <<","<< path->getNode(i)->getRow() <<")";
-        std::cout<< path->getNode(i)->getDistanceTraveled()<<", ";
-
-    }
-
-
 
 }
 
