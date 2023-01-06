@@ -11,7 +11,6 @@
 // Helper test functions
 void testNode();
 void testNodeList();
-void testEnv(Env env);
 void testEstDist();
 
 // Read a environment from standard input.
@@ -20,6 +19,7 @@ void readEnvStdin(Env env, PathSolver* pathsolver);
 // Print out a Environment to standard output with path.
 // To be implemented for Milestone 3
 void printEnvStdout(Env env, NodeList* solution);
+void printEnv(Env env);
 
 
 int main(int argc, char** argv){
@@ -39,7 +39,7 @@ int main(int argc, char** argv){
     // Pass starting node to Pathsolver and read in ENV
     PathSolver* pathSolver = new PathSolver();
     readEnvStdin(env, pathSolver);
-    // testEnv(env);
+    // printEnv(env);
 
     std::cout<< std::endl<<" ------- "<<std::endl;
     
@@ -99,17 +99,34 @@ void printEnvStdout(Env env, NodeList* solution) {
     // Print edited env with arrows instead of empty places along the rout
 
     // row +1 or -1, is east and west;
-    // col -1 or +1 is north and sout;
+    // col -1 or +1 is north and south;
 
     char north = '^';
     char south = 'v';
     char east = '>';
     char west = '<';
 
+    for(int i=0; i<solution->getLength()-1;i++){
 
+        Node* robo = new Node(*solution->getNode(i));
+        Node* next = new Node(*solution->getNode(i+1));
 
+            if(robo->getCol() < next->getCol()){
+                 env[solution->getNode(i)->getRow()][solution->getNode(i)->getCol()] = east;
+            }
+            if(robo->getCol() > next->getCol()){
+                 env[solution->getNode(i)->getRow()][solution->getNode(i)->getCol()] = west;
+            }
+            if(robo->getRow() > next->getRow()){
+                 env[solution->getNode(i)->getRow()][solution->getNode(i)->getCol()] = north;
+            }
+             if(robo->getRow() < next->getRow()){
+                 env[solution->getNode(i)->getRow()][solution->getNode(i)->getCol()] = south;
+            }
 
+    }
 
+    printEnv(env);
 }
 
 void testNode() {
@@ -157,7 +174,7 @@ void testNodeList() {
     std::cout << "PRINTING OUT A NODELIST IS AN EXERCISE FOR YOU TO DO" << std::endl;
 }
 
-void testEnv(Env env){
+void printEnv(Env env){
 
      for(int i =0 ; i<20;i++){
 
