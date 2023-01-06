@@ -35,6 +35,8 @@ public:
 
     void addAtIndex(Node* newNode, int index);
 
+    void setLength(int l);
+
 private:
     /*                                           */
     /* DO NOT MOFIFY THESE VARIABLES             */

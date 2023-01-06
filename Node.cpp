@@ -18,7 +18,8 @@ Node::Node(Node &n){
 
     row=n.getRow();
     col=n.getCol();
-    this->setDistanceTraveled(n.getDistanceTraveled()); 
+    this->setDistanceTraveled(n.getDistanceTraveled());
+    this->invalid = n.invalid; 
 
 
 };

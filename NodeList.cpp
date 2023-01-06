@@ -16,7 +16,7 @@ NodeList::NodeList(NodeList& other){
     
     for(int i = 0; i< other.getLength();i++){
 
-        this->nodes[i] = new Node(*other.getNode(i));
+        addElement(new Node(*other.getNode(i)));
 
     }
 
@@ -27,6 +27,11 @@ NodeList::NodeList(NodeList& other){
 int NodeList::getLength(){
     
     return this->length;
+}
+
+void NodeList::setLength(int l){
+
+    this->length = l;
 }
 
 void NodeList::addElement(Node* newPos){
@@ -60,6 +65,5 @@ Node* NodeList::getNode(int i){
 void NodeList::addAtIndex(Node* node, int index){
     
     this->nodes[index] = node;
-    this->length = this->length + 1;
 
 }
