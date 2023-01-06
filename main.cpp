@@ -8,6 +8,34 @@
 #include "NodeList.h"
 #include "PathSolver.h"
 
+// My approach:
+// As the C++ development process is pretty new to me I took this assignment
+// slow made sure to compile often throughout. I tried to follow object oriented
+// principles as closely as possible, while still maintaining coherency so that
+// I can understand what Im trying to achieve with blocks of code. In some areas
+// I could have condesed some verbose and repetitive code, but for ease of personal 
+// reference and learning, I kept these areas more segmented and clearly labelled 
+// so that I dont get logically lost while trying to understand new concepts. 
+
+// Issues I ran into:
+// I had some trouble with accessing member variables of nodes that were in 
+// my open and closed lists and even after thourough troubleshooting dont 
+// completely understand why. When trying to implement milestone 4 I also 
+// ran into a lot of unexpected behaviour when trying to implement dynamically allocated
+// arrays. I found it very frustrating that the course restricted the ways in 
+// which I'm allowed to solve these types of problems, being forced to use cin.get()
+// and not being allowed to use things not covered in the course was extremely limiting.
+// Arbitrary restrictions like this make the obfuscate a solution and teach me little
+// about dynamic array allocation, the testing of which was the purpose of the milestone.
+
+// Use the recommended command to compile the file:
+// g++ -Wall -Werror -std=c++14 -O -o assign1 Node.cpp NodeList.cpp PathSolver.cpp main.cpp
+//
+// Then:
+//
+// ./assign1 <tests/testName.env> output.txt
+// to view the results of the test in the output.txt file.
+
 // Helper test functions
 void testNode();
 void testNodeList();
@@ -17,16 +45,13 @@ void testEstDist();
 void readEnvStdin(Env env, PathSolver* pathsolver);
 
 // Print out a Environment to standard output with path.
-// To be implemented for Milestone 3
 void printEnvStdout(Env env, NodeList* solution);
 void printEnv(Env env);
 
 
 int main(int argc, char** argv){
-    // THESE ARE SOME EXAMPLE FUNCTIONS TO HELP TEST YOUR CODE
-    // AS YOU WORK ON MILESTONE 2. YOU CAN UPDATE THEM YOURSELF
-    // AS YOU GO ALONG.
-    // COMMENT THESE OUT BEFORE YOU SUBMIT!!!
+    
+
     // std::cout << "TESTING - COMMENT THE OUT TESTING BEFORE YOU SUBMIT!!!" << std::endl;
     // testNode();
     // testNodeList();
@@ -40,8 +65,6 @@ int main(int argc, char** argv){
     PathSolver* pathSolver = new PathSolver();
     readEnvStdin(env, pathSolver);
     // printEnv(env);
-
-    std::cout<< std::endl<<" ------- "<<std::endl;
     
     // Solve using forwardSearch
     // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 2
@@ -64,8 +87,8 @@ int main(int argc, char** argv){
 
 void readEnvStdin(Env env, PathSolver* pathsolver){
 
-    Node* start;
-    Node* goal;
+    Node* start = nullptr;
+    Node* goal = nullptr;
 
     for(int i =0 ; i<ENV_DIM;i++){
 
@@ -74,7 +97,9 @@ void readEnvStdin(Env env, PathSolver* pathsolver){
             char input;
 
             std::cin >> input;
-
+        
+        // Save the start and end markers for later so I
+        // know where to start and the estimated distance
             if(input==SYMBOL_START){
                 start = new Node(i,j,0);
             }
@@ -86,6 +111,14 @@ void readEnvStdin(Env env, PathSolver* pathsolver){
         }
     }
 
+    if(start == nullptr || goal == nullptr){
+
+        std::cout<<"Invalid Map";
+
+        exit(EXIT_FAILURE);
+
+    }
+
     pathsolver->startingLocation = start;
     pathsolver->goal = goal;
 
@@ -95,7 +128,6 @@ void readEnvStdin(Env env, PathSolver* pathsolver){
 
 void printEnvStdout(Env env, NodeList* solution) {
     
-    // TODO
     // Print edited env with arrows instead of empty places along the rout
 
     // row +1 or -1, is east and west;
@@ -106,7 +138,7 @@ void printEnvStdout(Env env, NodeList* solution) {
     char east = '>';
     char west = '<';
 
-    for(int i=0; i<solution->getLength()-1;i++){
+    for(int i=1; i<solution->getLength()-1;i++){
 
         Node* robo = new Node(*solution->getNode(i));
         Node* next = new Node(*solution->getNode(i+1));

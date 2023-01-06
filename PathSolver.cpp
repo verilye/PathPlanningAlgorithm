@@ -104,7 +104,6 @@ NodeList* PathSolver::getPath(Env env){
 
     // Start from the goal node in the list nodesExplored. This would be your final element of the path.
 
-
     // Then search for the the four neighbours of the goal node in nodesExplored.     
     // check if they are -1 distance travelled, 
     // then check all nodes that have either the same col or row
@@ -150,7 +149,6 @@ Node* PathSolver::selectNode(){
     Node* node;
     int closestDistance = ENV_DIM * ENV_DIM;
     int closestNode = -1;
-    int iterator = openList->getLength();
 
     for(int i = 0; i<openList->getLength(); i++){
 
@@ -170,10 +168,10 @@ Node* PathSolver::selectNode(){
 
 
     if(closestNode == -1){
-         Node* invalid = new Node(-1,-1,-1);
-        invalid->invalid = true;
-    
-        return invalid;
+        
+        std::cout<<"No valid path";
+        exit(EXIT_FAILURE);
+
     }else{
         return openList->getNode(closestNode);
 
