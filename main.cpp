@@ -15,7 +15,13 @@
 // I can understand what Im trying to achieve with blocks of code. In some areas
 // I could have condesed some verbose and repetitive code, but for ease of personal 
 // reference and learning, I kept these areas more segmented and clearly labelled 
-// so that I dont get logically lost while trying to understand new concepts. 
+// so that I dont get logically lost while trying to understand new concepts.
+
+// For milestone 3, I worked my way back down the visited nodes list reducing
+// distance travelled by one every time. After ensuring that the node is 1 less
+// distance travelled than the current node I checked that one of the axis was
+// the same as the current node and the other axis +1 or -1 difference.
+// This ensures that the next node is next to the current node. 
 
 // Issues I ran into:
 // I had some trouble with accessing member variables of nodes that were in 
